@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Александр Котов](https://up.htmlacademy.ru/php/4/user/139058).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Попов](https://up.htmlacademy.ru/php/4/user/78239).
 
 ---
 
