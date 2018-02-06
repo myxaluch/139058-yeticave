@@ -1,5 +1,6 @@
 <?php
 include('lotsdata.php');
+include('lots_helper.php');
 
 $is_auth = (bool) rand(0, 1);
 
@@ -31,7 +32,7 @@ $user_avatar = 'img/user.jpg';
         <nav class="user-menu">
             <?php if ($is_auth): ?>
                 <div class="user-menu__image">
-                    <img src="<?= $user_avatar; ?>" width="40" height="40" alt="<`?= $user_name; ?>">
+                    <img src="<?= $user_avatar; ?>" width="40" height="40" alt="<?= $user_name; ?>">
                 </div>
                 <div class="user-menu__logged">
                     <p><?=$user_name; ?></p>
@@ -93,7 +94,7 @@ $user_avatar = 'img/user.jpg';
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?= $lot['cost']; ?><b class="rub">р</b></span>
+                                <span class="lot__cost"><?= format_cost($lot['cost']); ?></span>
                             </div>
                             <div class="lot__timer timer">
 
@@ -101,7 +102,7 @@ $user_avatar = 'img/user.jpg';
                         </div>
                     </div>
                 </li>
-            <?php endforeach; unset($lot); ?>
+            <?php endforeach; ?>
         </ul>
     </section>
 </main>
@@ -113,7 +114,7 @@ $user_avatar = 'img/user.jpg';
                 <li class="nav__item">
                     <a href="all-lots.html"><?= $category ?></a>
                 </li>
-            <?php endforeach; unset($category); ?>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
