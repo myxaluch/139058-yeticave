@@ -20,6 +20,7 @@
 
   function next_day_time_left() {
     $next_day_second_left = strtotime('tomorrow') - time();
+
     return date('H:i', mktime(0, 0, $next_day_second_left));
   }
 ?>

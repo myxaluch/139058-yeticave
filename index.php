@@ -7,7 +7,8 @@
   $main_content = render_template(
     'templates/index.php',
     [
-      'lots' => $lots
+      'lots' => $lots,
+      'categories' => $lots_categories
     ]
   );
 
