@@ -1,16 +1,14 @@
 <?php
-  require_once('lotsdata.php');
+  require_once('data.php');
   require_once('functions.php');
 
-  $is_auth = (bool) rand(0, 1);
-  $title = 'YetiCave';
-  $user_name = 'Константин';
-  $user_avatar = 'img/user.jpg';
+  date_default_timezone_set("Europe/Moscow");
 
   $main_content = render_template(
     'templates/index.php',
     [
-      'lots' => $lots
+      'lots' => $lots,
+      'categories' => $lots_categories
     ]
   );
 
