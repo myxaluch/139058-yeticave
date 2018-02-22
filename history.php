@@ -17,8 +17,6 @@
     [
       'main_content' => $history_page,
       'title' => $title,
-      'is_auth' => $is_auth,
-      'user_name' => $user_name,
       'user_avatar' => $user_avatar,
       'lots_categories' => $lots_categories
     ]

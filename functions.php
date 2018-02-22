@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   function render_template($path, $variables = []) {
     if (is_file($path)) {
       ob_start();
@@ -61,5 +63,18 @@
     }
 
     return $sub_array;
+  }
+
+  function search_user_by_email($email, $users) {
+    $result = null;
+
+    foreach ($users as $user) {
+      if ($user['email'] == $email) {
+        $result = $user;
+        break;
+      }
+    }
+
+    return $result;
   }
 ?>
