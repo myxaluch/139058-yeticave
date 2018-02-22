@@ -36,4 +36,30 @@
 
     return $errors;
   }
+
+  function add_value_to_cookie_array($cookie_name, $value, $time) {
+    if (isset($_COOKIE[$cookie_name])) {
+      $viewed_cookie = json_decode($_COOKIE[$cookie_name]);
+    } else {
+      $viewed_cookie = [];
+    }
+
+    if (!in_array($value, $viewed_cookie)) {
+      $viewed_cookie[] = $value;
+    }
+
+    return setcookie($cookie_name, json_encode($viewed_cookie), $time);
+  }
+
+  function get_sub_array($array, $ids) {
+    $sub_array = [];
+
+    foreach ($ids as $id) {
+      if (array_key_exists($id, $array)) {
+        $sub_array[$id] = $array[$id];
+      }
+    }
+
+    return $sub_array;
+  }
 ?>
