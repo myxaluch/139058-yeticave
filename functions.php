@@ -23,4 +23,17 @@
 
     return date('H:i', mktime(0, 0, $next_day_second_left));
   }
+
+  function form_data_validation($data, $validated_fields_with_desc = []) {
+    $fields = array_keys($validated_fields_with_desc);
+    $errors = [];
+
+    foreach ($fields as $field) {
+      if (empty($data[$field])) {
+        $errors[$field] = $validated_fields_with_desc[$field];
+      }
+    }
+
+    return $errors;
+  }
 ?>
