@@ -71,4 +71,5 @@
   $title = 'YetiCave';
   $user_name = 'Константин';
   $user_avatar = 'img/user.jpg';
+  $viewed_lots_cookie_name = 'viewed_lots';
 ?>

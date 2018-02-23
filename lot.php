@@ -8,6 +8,7 @@
     $lot_id = htmlspecialchars($_GET['lot_id']);
 
     if (array_key_exists($lot_id, $lots)) {
+      add_value_to_cookie_array($viewed_lots_cookie_name, $lot_id, strtotime('+ 30 days'));
       $lot = $lots[$lot_id];
     }
   }

@@ -4,10 +4,12 @@
 
   date_default_timezone_set("Europe/Moscow");
 
+  $lots_content = render_template('templates/lots_list.php', ['lots' => $lots]);
+
   $main_content = render_template(
     'templates/index.php',
     [
-      'lots' => $lots,
+      'lots_content' => $lots_content,
       'categories' => $lots_categories
     ]
   );
