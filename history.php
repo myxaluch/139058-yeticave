@@ -6,8 +6,8 @@
     $lots_ids = json_decode($_COOKIE[$viewed_lots_cookie_name]);
     $viewed_lots = get_sub_array($lots, $lots_ids);
 
-    $viewed_lots_page = render_template('templates/lots_list.php',['lots' => $viewed_lots]);
-    $history_page = render_template('templates/history.php',['viewed_lots' => $viewed_lots_page]);
+    $viewed_lots_page = render_template('templates/lots_list.php', ['lots' => $viewed_lots]);
+    $history_page = render_template('templates/history.php', ['viewed_lots' => $viewed_lots_page]);
   } else {
     $history_page = render_template('templates/history.php');
   }
