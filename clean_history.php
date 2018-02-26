@@ -1,6 +1,5 @@
 <?php
-  require_once('data.php');
-  require_once('functions.php');
+  require_once('init.php');
 
   if (isset($_COOKIE[$viewed_lots_cookie_name])) {
     unset($_COOKIE[$viewed_lots_cookie_name]);

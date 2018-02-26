@@ -1,6 +1,5 @@
 <?php
-  require_once('data.php');
-  require_once('functions.php');
+  require_once('init.php');
 
   $lot = null;
 
@@ -31,8 +30,7 @@
       'main_content' => $lot_content,
       'title' => $title,
       'current_user' => current_user(),
-      'user_avatar' => $user_avatar,
-      'lots_categories' => $lots_categories
+      'lots_categories' => load_lots_categories($db_link)
     ]
   );
 

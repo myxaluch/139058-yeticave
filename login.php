@@ -1,6 +1,5 @@
 <?php
-  require_once("functions.php");
-  require_once("data.php");
+  require_once("init.php");
 
   if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $form = $_POST;
@@ -17,10 +16,10 @@
     $errors = form_data_validation($_POST, $validated_fields);
 
     if (!count($errors)) {
-      $user = search_user_by_email($form['email'], $users);
-      if (isset($user)) {
-        if (password_verify($form['password'], $user['password'])) {
-          $_SESSION['user'] = $user;
+      $user = search_user_by_email($form['email'], $db_link);
+      if (isset($user[0])) {
+        if (password_verify($form['password'], $user[0]['password'])) {
+          $_SESSION['user'] = $user[0];
         } else {
           $errors['password'] = 'Неверный пароль';
         }
@@ -30,7 +29,7 @@
     }
 
     if(count($errors)) {
-      $page_content = render_template(
+      $main_content = render_template(
         'templates/login.php',
         [
           'form' => $form,
@@ -43,21 +42,20 @@
     }
   } else {
     if (current_user()) {
-      $page_content = render_template('templates/welcome.php', ['username' => current_user()['name']]);
+      $main_content = render_template('templates/welcome.php', ['username' => current_user()['name']]);
     }
     else {
-      $page_content = render_template('templates/login.php', []);
+      $main_content = render_template('templates/login.php', []);
     }
   }
 
   $full_page = render_template(
     'templates/layout.php',
     [
-      'main_content' => $page_content,
+      'main_content' => $main_content,
       'title' => $title,
       'current_user' => current_user(),
-      'user_avatar' => $user_avatar,
-      'lots_categories' => $lots_categories
+      'lots_categories' => load_lots_categories($db_link)
     ]
   );
 

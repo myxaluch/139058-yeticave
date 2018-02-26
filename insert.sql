@@ -3,14 +3,14 @@ USE yeti_cave;
 # Add existing data from data.php:
 
 # - categories
-INSERT INTO categories(title)
+INSERT INTO categories(alias, title)
   VALUES
-    ("Доски и лыжи"),
-    ("Крепления"),
-    ("Ботинки"),
-    ("Одежда"),
-    ("Инструменты"),
-    ("Разное");
+    ("boards", "Доски и лыжи"),
+    ("attachment", "Крепления"),
+    ("boots", "Ботинки"),
+    ("clothing", "Одежда"),
+    ("tools", "Инструменты"),
+    ("other", "Разное");
 
 # - users
 INSERT INTO users(email, name, password, avatar_url, created_at)
