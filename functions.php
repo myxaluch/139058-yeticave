@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
 /**
  * Render templates, using buffer
  * @param string $path - path to template file
@@ -116,5 +118,32 @@
     }
 
     return $sub_array;
+  }
+
+/**
+ * Search user by given email
+ * @param $email - given email
+ * @param $users - array with users, where are searching
+ * @return array - founded user
+ */
+  function search_user_by_email($email, $users) {
+    $result = null;
+
+    foreach ($users as $user) {
+      if ($user['email'] == $email) {
+        $result = $user;
+        break;
+      }
+    }
+
+    return $result;
+  }
+
+/**
+ * Show current logged user
+ * @return array - return user, if it's logged in
+ */
+  function current_user() {
+    return(isset($_SESSION['user']) ? $_SESSION['user'] : null);
   }
 ?>

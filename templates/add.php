@@ -40,12 +40,17 @@
     <textarea id="description" name="description" placeholder="Напишите описание лота"><?= $lot_description; ?></textarea>
     <span class="form__error"><?= isset($errors['description']) ? $errors['description'] : ""; ?></span>
   </div>
-  <div class="form__item form__item--file">
+  <?php
+    $error_class = isset($errors['image']) ? 'form__item--invalid' : '';
+    $lot_image_url = isset($lot['image_url']) ? $lot['image_url'] : '';
+    $uploaded_class = isset($lot['image_url']) ? 'form__item--uploaded' : '';
+  ?>
+  <div class="form__item form__item--file <?= $error_class; ?> <?= $uploaded_class; ?>">
     <label>Изображение</label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="Изображение лота">
+        <img src=" <?= $lot_image_url; ?>" width="113" height="113" alt="Изображение лота">
       </div>
     </div>
     <div class="form__input-file">
@@ -54,6 +59,7 @@
         <span>+ Добавить</span>
       </label>
     </div>
+    <span class="form__error"><?= isset($errors['image']) ? $errors['image'] : ""; ?></span>
   </div>
   <div class="form__container-three">
     <?php
