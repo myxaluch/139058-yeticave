@@ -6,8 +6,12 @@
     $form = $_POST;
 
     $validated_fields = [
-      'email' => 'Введите email',
-      'password' => 'Введите пароль'
+      'email' => [
+        'error_text' => 'Введите email'
+      ],
+      'password' => [
+        'error_text' => 'Введите пароль'
+      ]
     ];
 
     $errors = form_data_validation($_POST, $validated_fields);
@@ -34,12 +38,12 @@
         ]
       );
     } else {
-      header("Location: /index.php");
+      header("Location: index.php");
       exit();
     }
   } else {
-    if (isset($_SESSION['user'])) {
-      $page_content = render_template('templates/welcome.php', ['username' => $_SESSION['user']['name']]);
+    if (current_user()) {
+      $page_content = render_template('templates/welcome.php', ['username' => current_user()['name']]);
     }
     else {
       $page_content = render_template('templates/login.php', []);
@@ -51,6 +55,7 @@
     [
       'main_content' => $page_content,
       'title' => $title,
+      'current_user' => current_user(),
       'user_avatar' => $user_avatar,
       'lots_categories' => $lots_categories
     ]

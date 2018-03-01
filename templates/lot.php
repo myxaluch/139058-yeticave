@@ -10,7 +10,7 @@
         <p class="lot-item__description"><?= htmlspecialchars($lot['description']); ?></p>
       </div>
       <div class="lot-item__right">
-        <?php if (isset($_SESSION['user'])): ?>
+        <?php if (isset($current_user)): ?>
           <div class="lot-item__state">
             <div class="lot-item__timer timer">
               10:54:12

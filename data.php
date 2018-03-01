@@ -17,6 +17,8 @@
     "other" => "Разное"
   ];
 
+  $category_titles = array_values($lots_categories);
+
   $lots =[
     [
       "title" => "2014 Rossignol District Snowboard",

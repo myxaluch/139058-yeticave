@@ -14,6 +14,6 @@
     <div class="lots__header">
       <h2>Открытые лоты</h2>
     </div>
-    <?= $lots_content; ?>
+    <?= render_template('templates/lots_list.php', ['lots' => $lots]); ?>
   </section>
 </main>

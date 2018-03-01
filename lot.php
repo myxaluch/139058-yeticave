@@ -20,7 +20,8 @@
   $lot_content = render_template(
     'templates/lot.php',
     [
-      'lot' => $lot
+      'lot' => $lot,
+      'current_user' => current_user()
     ]
   );
 
@@ -29,6 +30,7 @@
     [
       'main_content' => $lot_content,
       'title' => $title,
+      'current_user' => current_user(),
       'user_avatar' => $user_avatar,
       'lots_categories' => $lots_categories
     ]
