@@ -3,17 +3,20 @@
  * Render templates, using buffer
  * @param string $path - path to template file
  * @param array $variables - array with variables, which are using in template file
+ * @param integer $response_code - number with response HTTP code (default: 200)
  * @return bool - if file don't exist return false|string - if file exist return result of render
  */
-  function render_template($path, $variables = []) {
+  function render_template($path, $variables = [], $response_code = 200) {
     if (is_file($path)) {
       ob_start();
 
+      http_response_code($response_code);
       extract($variables);
       require_once($path);
 
       return ob_get_clean();
     }
+
     return false;
   }
 
@@ -117,12 +120,3 @@
 
     return $sub_array;
   }
-
-/**
- * Show current logged user
- * @return array - return user, if it's logged in
- */
-  function current_user() {
-    return(isset($_SESSION['user']) ? $_SESSION['user'] : null);
-  }
-?>

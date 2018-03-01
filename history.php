@@ -3,7 +3,8 @@
 
   if (isset($_COOKIE[$viewed_lots_cookie_name])) {
     $lots_ids = json_decode($_COOKIE[$viewed_lots_cookie_name]);
-    $viewed_lots = get_sub_array($lots, $lots_ids);
+
+    $viewed_lots = search_lots_by_ids($lots_ids, $db_link);
 
     $history_page = render_template('templates/history.php', ['lots' => $viewed_lots]);
   } else {
@@ -15,9 +16,8 @@
     [
       'main_content' => $history_page,
       'title' => $title,
-      'current_user' => current_user(),
-      'user_avatar' => $user_avatar,
-      'lots_categories' => load_lots_categories($db_link)
+      'current_user' => $current_user,
+      'lots_categories' => $lots_categories
     ]
   );
 
