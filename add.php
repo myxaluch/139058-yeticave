@@ -10,10 +10,7 @@
           'error_text' => 'Введите наименование лота'
         ],
         'category' => [
-          'error_text' => 'Выберите категорию',
-          'validate_function' => function($user_data) use($category_titles) {
-            return(in_array($user_data, $category_titles));
-          }
+          'error_text' => 'Выберите категорию'
         ],
         'description' => [
           'error_text' => 'Напишите описание лота'
@@ -51,6 +48,11 @@
           $res = move_uploaded_file($_FILES["image"]["tmp_name"], $path);
           $lot["image_url"] = $path;
         }
+      }
+
+      $insert_status = add_new_lot($lot, $db_link);
+      if (!$insert_status) {
+        $errors['title'] = 'Проблема с добавлением нового лота';
       }
 
       if (count($errors)) {
