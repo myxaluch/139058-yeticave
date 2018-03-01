@@ -1,6 +1,5 @@
 <?php
-  require_once('data.php');
-  require_once('functions.php');
+  require_once('init.php');
 
   if (isset($_COOKIE[$viewed_lots_cookie_name])) {
     $lots_ids = json_decode($_COOKIE[$viewed_lots_cookie_name]);
@@ -18,7 +17,7 @@
       'title' => $title,
       'current_user' => current_user(),
       'user_avatar' => $user_avatar,
-      'lots_categories' => $lots_categories
+      'lots_categories' => load_lots_categories($db_link)
     ]
   );
 

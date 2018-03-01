@@ -6,6 +6,7 @@ USE yeti_cave;
 
 CREATE TABLE categories(
   id INT AUTO_INCREMENT PRIMARY KEY,
+  alias CHAR(128),
   title CHAR(128)
 );
 

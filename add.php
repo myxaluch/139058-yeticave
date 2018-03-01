@@ -1,6 +1,5 @@
 <?php
-  require_once("functions.php");
-  require_once("data.php");
+  require_once("init.php");
 
   if(current_user()) {
     if ($_SERVER["REQUEST_METHOD"] == 'POST') {
@@ -60,7 +59,7 @@
           [
             'lot' => $lot,
             'errors' => $errors,
-            'lots_categories' => $lots_categories
+            'lots_categories' => load_lots_categories($db_link)
           ]
         );
       } else {
@@ -69,7 +68,7 @@
         );
       }
     } else {
-      $main_content = render_template('templates/add.php', ['lots_categories' => $lots_categories]);
+      $main_content = render_template('templates/add.php', ['lots_categories' => load_lots_categories($db_link)]);
     }
   } else {
     http_response_code(403);
@@ -83,8 +82,7 @@
       'main_content' => $main_content,
       'title' => $title,
       'current_user' => current_user(),
-      'user_avatar' => $user_avatar,
-      'lots_categories' => $lots_categories
+      'lots_categories' => load_lots_categories($db_link)
     ]
   );
 

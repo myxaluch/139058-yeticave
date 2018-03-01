@@ -1,6 +1,4 @@
 <?php
-  session_start();
-
 /**
  * Render templates, using buffer
  * @param string $path - path to template file
@@ -118,25 +116,6 @@
     }
 
     return $sub_array;
-  }
-
-/**
- * Search user by given email
- * @param $email - given email
- * @param $users - array with users, where are searching
- * @return array - founded user
- */
-  function search_user_by_email($email, $users) {
-    $result = null;
-
-    foreach ($users as $user) {
-      if ($user['email'] == $email) {
-        $result = $user;
-        break;
-      }
-    }
-
-    return $result;
   }
 
 /**

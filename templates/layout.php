@@ -25,7 +25,7 @@
         <nav class="user-menu">
           <?php if ($current_user): ?>
               <div class="user-menu__image">
-                  <img src="<?= $user_avatar; ?>" width="40" height="40" alt="<?= $current_user['name'] ?>">
+                  <img src="<?= $current_user['avatar_url']; ?>" width="40" height="40" alt="<?= $current_user['name'] ?>">
               </div>
               <div class="user-menu__logged">
                   <p><?= htmlspecialchars($current_user['name']); ?></p>
@@ -34,7 +34,7 @@
           <?php else: ?>
             <ul class="user-menu__list">
                 <li class="user-menu__item">
-                  <a href="#">Регистрация</a>
+                  <a href="sign-up.php">Регистрация</a>
                 </li>
                 <li class="user-menu__item">
                   <a href="login.php">Вход</a>
@@ -52,7 +52,7 @@
         <ul class="nav__list container">
             <?php foreach ($lots_categories as $category): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= $category ?></a>
+                    <a href="pages/all-lots.html"><?= $category['title'] ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
