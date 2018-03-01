@@ -44,20 +44,27 @@
     return $stmt;
   }
 
-  function db_safe_select_query($link, $sql, $data = [], &$result) {
-    if (!$link) {
+/**
+ * @param $link - current link to DB
+ * @param $sql - SQL query (SELECT statement)
+ * @param array $data - data for SQL query
+ * @param $result - return template with errors, if it was, in other way - return data from database
+ * @return bool - return status of query
+ */
+  function db_safe_select_query($db_link, $sql, $data = [], &$result) {
+    if (!$db_link) {
       $error = mysqli_connect_error();
-      $result = render_template('error.php', ['error' => $error]);
+      $result = render_template('templates/error.php', ['error' => $error]);
       return false;
     }
 
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $stmt = db_get_prepare_stmt($db_link, $sql, $data);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
 
     if (!$res) {
       $error = mysqli_errno();
-      $result = render_template('error.php', ['error' => $error]);
+      $result = render_template('templates/error.php', ['error' => $error]);
       return false;
     }
 
@@ -66,7 +73,7 @@
 
     if (!$res) {
       $error = mysqli_errno();
-      $result = render_template('error.php', ['error' => $error]);
+      $result = render_template('templates/error.php', ['error' => $error]);
       return false;
     }
 
@@ -74,19 +81,26 @@
   }
 
 
-  function db_safe_query($link, $sql, $data = [], &$result) {
-    if (!$link) {
+/**
+ * @param $link - current link to DB
+ * @param $sql - SQL query (INSERT, UPDATE and DELETE statements)
+ * @param array $data - data for SQL query
+ * @param $result - return template with errors, if it was
+ * @return bool - return status of query
+ */
+  function db_safe_query($db_link, $sql, $data = [], &$result) {
+    if (!$db_link) {
       $error = mysqli_connect_error();
-      $result = render_template('error.php', ['error' => $error]);
+      $result = render_template('templates/error.php', ['error' => $error]);
       return false;
     }
 
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $stmt = db_get_prepare_stmt($db_link, $sql, $data);
     $res = mysqli_stmt_execute($stmt);
 
     if (!$res) {
       $error = mysqli_errno();
-      $result = render_template('error.php', ['error' => $error]);
+      $result = render_template('templates/error.php', ['error' => $error]);
       return false;
     }
 
@@ -110,6 +124,11 @@
     }
   }
 
+/**
+ * @param $data - array of data of new user
+ * @param $db_link - current link to DB
+ * @return bool|null - return true, if insert was successful, in other way - false
+ */
   function add_new_user(&$data, $db_link) {
     $result = null;
 
@@ -128,14 +147,48 @@
       ],
       $temp
     );
+    $data['id'] = mysqli_insert_id($db_link);
 
     return $result;
   }
 
+/**
+ * @param $data - array of data of new user
+ * @param $db_link - current link to DB
+ * @return bool|null - return true, if insert was successful, in other way - false
+ */
+  function add_new_lot(&$data, $db_link) {
+  $result = null;
+
+  $insert_sql = 'INSERT INTO lots(`author_id`, `category_id`, `title`, `description`, `start_rate`, `rate_step`, `image_url`, `finished_at`, `created_at`) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())';
+  $result = db_safe_query(
+    $db_link,
+    $insert_sql,
+    [
+      $_SESSION['user']['id'],
+      $data['category'],
+      $data['title'],
+      $data['description'],
+      $data['cost'],
+      $data['cost-step'],
+      $data['image_url'] ?? '',
+      $data['finish-date']
+    ],
+    $temp
+  );
+
+  return $result;
+}
+
+/**
+ * @param $db_link - current link to DB
+ * @return array - array of lot's categories
+ */
   function load_lots_categories($db_link) {
     $lots_categories = [];
-    $sql = 'SELECT `alias`, `title` FROM categories';
-    $result = db_safe_select_query($db_link, $sql, [], $lots_categories);
+    $sql = 'SELECT * FROM categories';
+    db_safe_select_query($db_link, $sql, [], $lots_categories);
 
     return $lots_categories;
   }

@@ -21,10 +21,10 @@
       <select id="category" name="category">
         <option>Выберите категорию</option>
         <?php foreach ($lots_categories as $category): ?>
-          <?php if($category == $category_title): ?>
-            <option selected><?= $category; ?></option>
+          <?php if($category['title'] == $category_title): ?>
+            <option value="<?= $category['id']; ?>" selected><?= $category['title']; ?></option>
           <?php else: ?>
-            <option><?= $category; ?></option>
+            <option value="<?= $category['id']; ?>" ><?= $category['title']; ?></option>
           <?php endif; ?>
         <?php endforeach; ?>
       </select>
