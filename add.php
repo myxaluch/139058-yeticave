@@ -1,8 +1,8 @@
 <?php
-  require_once("init.php");
+  require_once('init.php');
 
-  if(current_user()) {
-    if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+  if($current_user) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $lot = $_POST;
 
       $validated_fields = [
@@ -36,17 +36,17 @@
 
       $errors = form_data_validation($_POST, $validated_fields);
 
-      if (!empty($_FILES["image"]["name"])) {
+      if (!empty($_FILES['image']['name'])) {
         $tmp_name = $_FILES['image']['tmp_name'];
-        $path = "img/" . $_FILES["image"]["name"];
+        $path = 'img/' . $_FILES['image']['name'];
 
         $file_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmp_name);
 
         if ($file_type !== 'image/png' && $file_type !== 'image/jpeg') {
-          $errors['image'] = 'Загрузите картинку в формате PNG/GIF';
+          $errors['image'] = 'Загрузите картинку в формате PNG/JPEG';
         } else {
-          $res = move_uploaded_file($_FILES["image"]["tmp_name"], $path);
-          $lot["image_url"] = $path;
+          $res = move_uploaded_file($_FILES['image']['tmp_name'], $path);
+          $lot['image_url'] = $path;
         }
       }
 
@@ -61,21 +61,17 @@
           [
             'lot' => $lot,
             'errors' => $errors,
-            'lots_categories' => load_lots_categories($db_link)
+            'lots_categories' => $lots_categories
           ]
         );
       } else {
-        $main_content = render_template(
-          'templates/lot.php', ['lot' => $lot, 'current_user' => current_user()]
-        );
+        header('Location: lot.php?lot_id='. $lot['id']);
       }
     } else {
-      $main_content = render_template('templates/add.php', ['lots_categories' => load_lots_categories($db_link)]);
+      $main_content = render_template('templates/add.php', ['lots_categories' => $lots_categories]);
     }
   } else {
-    http_response_code(403);
-
-    $main_content = render_template('templates/error.php', ['error' => 'Доступ ограничен']);
+    $main_content = render_template('templates/error.php', ['error' => 'Доступ ограничен'], 403);
   }
 
   $full_page = render_template(
@@ -83,10 +79,9 @@
     [
       'main_content' => $main_content,
       'title' => $title,
-      'current_user' => current_user(),
-      'lots_categories' => load_lots_categories($db_link)
+      'current_user' => $current_user,
+      'lots_categories' => $lots_categories
     ]
   );
 
   print($full_page);
-?>

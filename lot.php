@@ -1,36 +1,36 @@
 <?php
   require_once('init.php');
 
-  $lot = null;
-
   if (isset($_GET['lot_id'])) {
     $lot_id = htmlspecialchars($_GET['lot_id']);
+    $lot = search_lot_by_id($lot_id, $db_link);
 
-    if (array_key_exists($lot_id, $lots)) {
+    if ($lot) {
+      $rates = [];
+      $rates = search_rates_by_lot($lot_id, $db_link);
+
       add_value_to_cookie_array($viewed_lots_cookie_name, $lot_id, strtotime('+ 30 days'));
-      $lot = $lots[$lot_id];
+
+      $main_content = render_template(
+        'templates/lot.php',
+        [
+          'lot' => $lot,
+          'rates' => $rates,
+          'current_user' => $current_user
+        ]
+      );
+    } else {
+      $main_content = render_template('templates/error.php', ['error' => 'Лота с этим ID не найдено'], 404);
     }
   }
-
-  if (!$lot) {
-    http_response_code(404);
-  }
-
-  $lot_content = render_template(
-    'templates/lot.php',
-    [
-      'lot' => $lot,
-      'current_user' => current_user()
-    ]
-  );
 
   $full_page = render_template(
     'templates/layout.php',
     [
-      'main_content' => $lot_content,
+      'main_content' => $main_content,
       'title' => $title,
-      'current_user' => current_user(),
-      'lots_categories' => load_lots_categories($db_link)
+      'current_user' => $current_user,
+      'lots_categories' => $lots_categories
     ]
   );
 

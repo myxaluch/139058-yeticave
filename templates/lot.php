@@ -21,76 +21,35 @@
                 <span class="lot-item__cost"><?= htmlspecialchars(format_cost($lot['cost'])); ?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span>12 000 р</span>
+                Мин. ставка <span><?= htmlspecialchars(format_cost($lot['cost-step'])); ?></span>
               </div>
             </div>
-            <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
-              <p class="lot-item__form-item">
-                <label for="cost">Ваша ставка</label>
-                <input id="cost" type="number" name="cost" placeholder="12 000">
+            <?php $form_error_class = isset($errors) ? "form--invalid" : ""; ?>
+            <form class="lot-item__form <=? $form_error_class; ?>" action="add_rate.php" method="post">
+              <?php $error_class = isset($errors['rate']) ? "form__item--invalid" : ""; ?>
+              <p class="lot-item__form-item <?= $error_class; ?>">
+                <label for="rate">Ваша ставка</label>
+                <input id="rate" type="number" name="rate" placeholder="<?= htmlspecialchars(format_cost($lot['cost-step'])); ?>">
+                <input class="visually-hidden" type="number" id="lot_id" name="lot_id" value="<?= $lot['id']; ?>">
               </p>
+              <span class="form__error"><?= isset($errors['rate']) ? $errors['rate'] : ""; ?></span>
               <button type="submit" class="button">Сделать ставку</button>
             </form>
           </div>
+          <div class="history">
+            <h3>История ставок (<span><?= count($rates); ?></span>)</h3>
+            <table class="history__list">
+            <?php foreach ($rates as $rate): ?>
+              <tr class="history__item">
+                <td class="history__name"><?= $rate['author']; ?></td>
+                <td class="history__price"><?= $rate['amount']; ?></td>
+                <td class="history__time"><?= $rate['created_at']; ?></td>
+              </tr>
+            <?php endforeach; ?>
+            </table>
+          </div>
         <?php endif; ?>
-        <div class="history">
-          <h3>История ставок (<span>10</span>)</h3>
-          <table class="history__list">
-            <tr class="history__item">
-              <td class="history__name">Иван</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">5 минут назад</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Константин</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">20 минут назад</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Евгений</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">Час назад</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Игорь</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 08:21</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Енакентий</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 13:20</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Семён</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 12:20</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Илья</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 10:20</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Енакентий</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 13:20</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Семён</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 12:20</td>
-            </tr>
-            <tr class="history__item">
-              <td class="history__name">Илья</td>
-              <td class="history__price">10 999 р</td>
-              <td class="history__time">19.03.17 в 10:20</td>
-            </tr>
-          </table>
-        </div>
       </div>
     </div>
-  <?php else: ?>
-    <h1 style="color: black">Лота с этим ID не найдено</h1>
   <?php endif; ?>
 </section>
