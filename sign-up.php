@@ -23,7 +23,7 @@
 
     if (!empty($_FILES['avatar']['name'])) {
       $tmp_name = $_FILES['avatar']['tmp_name'];
-      $path = 'img/' . $_FILES["avatar"]["name"];
+      $path = 'img/' . $_FILES['avatar']['name'];
 
       $file_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmp_name);
 
