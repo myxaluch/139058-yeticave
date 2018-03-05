@@ -9,26 +9,26 @@
     ?>
     <div class="form__item <?= $error_class ;?>">
       <label for="title">Наименование</label>
-      <input id="title" type="text" name="title" placeholder="Введите наименование лота" value="<?= $lot_title; ?>">
+      <input id="title" type="text" name="title" placeholder="Введите наименование лота" value="<?= htmlspecialchars($lot_title); ?>">
       <span class="form__error"><?= isset($errors['title']) ? $errors['title'] : ""; ?></span>
     </div>
     <?php
       $error_class = isset($errors['category']) ? "form__item--invalid" : "";
-      $category_title = isset($lot['category']) ? $lot['category'] : "";
+      $category_id = isset($lot['category']) ? $lot['category'] : "";
     ?>
     <div class="form__item <?= $error_class ;?>">
       <label for="category">Категория</label>
       <select id="category" name="category">
         <option>Выберите категорию</option>
         <?php foreach ($lots_categories as $category): ?>
-          <?php if($category['title'] == $category_title): ?>
-            <option value="<?= $category['id']; ?>" selected><?= $category['title']; ?></option>
+          <?php if($category['id'] === $category_id): ?>
+            <option value="<?= $category['id']; ?>" selected><?= htmlspecialchars($category['title']); ?></option>
           <?php else: ?>
-            <option value="<?= $category['id']; ?>" ><?= $category['title']; ?></option>
+            <option value="<?= $category['id']; ?>" ><?= htmlspecialchars($category['title']); ?></option>
           <?php endif; ?>
         <?php endforeach; ?>
       </select>
-      <span class="form__error"><?= isset($errors['title']) ? $errors['title'] : ""; ?></span>
+      <span class="form__error"><?= isset($errors['category']) ? $errors['category'] : ""; ?></span>
     </div>
   </div>
   <?php
@@ -37,7 +37,7 @@
   ?>
   <div class="form__item form__item--wide <?= $error_class ;?>">
     <label for="description">Описание</label>
-    <textarea id="description" name="description" placeholder="Напишите описание лота"><?= $lot_description; ?></textarea>
+    <textarea id="description" name="description" placeholder="Напишите описание лота"><?= htmlspecialchars($lot_description); ?></textarea>
     <span class="form__error"><?= isset($errors['description']) ? $errors['description'] : ""; ?></span>
   </div>
   <?php
@@ -50,11 +50,12 @@
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src=" <?= $lot_image_url; ?>" width="113" height="113" alt="Изображение лота">
+        <img src="<?= htmlspecialchars($lot_image_url); ?>" width="113" height="113" alt="<?= htmlspecialchars($lot_image_url); ?>">
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="image" value="">
+      <input class="visually-hidden" name="image_url" value="<?= htmlspecialchars($lot_image_url); ?>">
+      <input class="visually-hidden" type="file" id="photo2" name="image">
       <label for="photo2">
         <span>+ Добавить</span>
       </label>

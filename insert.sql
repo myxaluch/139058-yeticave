@@ -1,7 +1,5 @@
 USE yeti_cave;
 
-# Add existing data from data.php:
-
 # - categories
 INSERT INTO categories(alias, title)
   VALUES

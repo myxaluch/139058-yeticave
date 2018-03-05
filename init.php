@@ -1,5 +1,4 @@
 <?php
-  require_once('data.php');
   require_once('configs/database.php');
   require_once('mysql_helper.php');
 
@@ -11,3 +10,5 @@
 
   $lots_categories = load_lots_categories($db_link);
   $current_user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+  $viewed_lots_cookie_name = 'viewed_lots';
+  $title = 'YetiCave';
