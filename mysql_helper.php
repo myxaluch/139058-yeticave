@@ -112,7 +112,16 @@
   function search_lots_by_ids($ids, $db_link) {
     $lots = [];
     $ids = implode(', ', $ids);
-    $sql = 'SELECT lots.id, lots.title, lots.description, lots.image_url, lots.start_rate as cost, lots.rate_step as `cost-step`, categories.title as category FROM lots 
+    $sql = 'SELECT
+              lots.id,
+              lots.author_id,
+              lots.title,
+              lots.description, 
+              lots.image_url,
+              lots.start_rate as cost, 
+              lots.rate_step as `cost-step`, 
+              categories.title as category
+              FROM lots
               JOIN categories ON lots.category_id = categories.id 
               WHERE lots.id = ?';
 
@@ -123,7 +132,15 @@
 
   function load_opened_recent_lots($db_link) {
     $lots = [];
-    $sql = 'SELECT lots.id, lots.title, lots.start_rate as cost, lots.image_url, COUNT(rates.id) AS rates_count, categories.title as category FROM lots
+    $sql = 'SELECT
+              lots.id,
+              lots.author_id, 
+              lots.title,
+              lots.start_rate as cost, 
+              lots.image_url,
+              COUNT(rates.id) AS rates_count, 
+              categories.title as category
+            FROM lots
             JOIN categories ON lots.category_id = categories.id
             LEFT JOIN rates ON lots.id = rates.lot_id
             WHERE
@@ -146,9 +163,11 @@
 
   function search_rates_by_lot($lot_id, $db_link) {
     $rates = [];
-    $sql = 'SELECT rates.*, users.name as author FROM rates 
+    $sql = 'SELECT rates.*, users.name as author
+              FROM rates
               JOIN users ON rates.author_id = users.id 
-              WHERE rates.lot_id = ?';
+              WHERE rates.lot_id = ?
+              ORDER BY rates.created_at DESC';
 
     db_safe_select_query($db_link, $sql, [$lot_id], $rates);
 
@@ -254,3 +273,25 @@
 
     return $lots_categories;
   }
+
+/**
+ * @param $db_link - current link to DB
+ * @param $user_data - array of user data for authenication
+ * @param $errors - array with errors
+ * @return boolean - return true, if user authenticated correctly
+ */
+function authenticate_user($db_link, $user_data, &$errors) {
+  $user = search_user_by_email($user_data['email'], $db_link);
+  if ($user) {
+    if (password_verify($user_data['password'], $user['password'])) {
+      $_SESSION['user'] = $user;
+      return true;
+    } else {
+      $errors['password'] = 'Неверный пароль';
+      return false;
+    }
+  } else {
+    $errors['email'] = 'Пользователя с таким email не существует';
+    return false;
+  }
+}

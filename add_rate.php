@@ -2,16 +2,16 @@
   require_once('init.php');
 
   if($current_user) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $rate = $_POST;
 
       $lot = search_lot_by_id($rate['lot_id'], $db_link);
-      $lot_cost_step = $lot['cost-step'];
+      $minimal_rate = $lot['cost'] + $lot['cost-step'];
 
       $validated_fields = [
         'rate' => [
           'error_text' => 'Ставка должна быть выше или равна минимальной для данного лота',
-          'validate_function' => function($user_data) use($lot_cost_step) { return intval($user_data) >= $lot_cost_step; }
+          'validate_function' => function($user_data) use($minimal_rate) { return intval($user_data) >= $minimal_rate; }
         ]
       ];
 

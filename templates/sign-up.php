@@ -37,8 +37,11 @@
     <textarea id="contact_info" name="contact_info" placeholder="Напишите как с вами связаться"><?= $user_description; ?></textarea>
     <span class="form__error"><?= isset($errors['contact_info']) ? $errors['contact_info'] : ""; ?></span>
   </div>
-  <?php $user_avatar_url = isset($lot['avatar_url']) ? $lot['avatar_url'] : ''; ?>
-  <div class="form__item form__item--file form__item--last">
+  <?php
+    $error_class = isset($errors['avatar']) ? "form__item--invalid" : "";
+    $user_avatar_url = isset($lot['avatar_url']) ? $lot['avatar_url'] : '';
+  ?>
+  <div class="form__item form__item--file form__item--last <?= $error_class; ?>">
     <label>Аватар</label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
@@ -52,6 +55,7 @@
         <span>+ Добавить</span>
       </label>
     </div>
+    <span class="form__error"><?= isset($errors['avatar']) ? $errors['avatar'] : ""; ?></span>
   </div>
   <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
   <button type="submit" class="button">Зарегистрироваться</button>

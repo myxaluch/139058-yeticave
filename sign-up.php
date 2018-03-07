@@ -1,12 +1,13 @@
 <?php
   require_once('init.php');
 
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = $_POST;
 
     $validated_fields = [
       'email' => [
-        'error_text' => 'Введите email'
+        'error_text' => 'Введите корректный email',
+        'validate_function' => function($user_data) { return filter_var($user_data, FILTER_VALIDATE_EMAIL); }
       ],
       'password' => [
         'error_text' => 'Введите пароль'
@@ -28,7 +29,7 @@
       $file_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmp_name);
 
       if ($file_type !== 'image/png' && $file_type !== 'image/jpeg') {
-        $errors['avatar'] = 'Загрузите картинку в формате PNG/JPEG';
+        $errors['avatar'] = 'Загрузите аватарку в формате PNG/JPEG';
       } else {
         $res = move_uploaded_file($_FILES['avatar']['tmp_name'], $path);
         $form['avatar_url'] = $path;
