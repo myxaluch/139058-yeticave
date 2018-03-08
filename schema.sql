@@ -20,8 +20,8 @@ CREATE TABLE lots(
   image_url CHAR(128),
   start_rate INT NOT NULL DEFAULT 0,
   rate_step INT NOT NULL DEFAULT 0,
-  created_at DATE,
-  finished_at DATE
+  created_at DATETIME,
+  finished_at DATETIME
 );
 
 CREATE TABLE rates(
@@ -29,7 +29,7 @@ CREATE TABLE rates(
   lot_id INT,
   author_id INT,
   amount INT NOT NULL DEFAULT 0,
-  created_at DATE
+  created_at DATETIME
 );
 
 CREATE TABLE users(
@@ -39,7 +39,7 @@ CREATE TABLE users(
   password CHAR(64),
   avatar_url CHAR(128),
   contact_info TEXT,
-  created_at DATE
+  created_at DATETIME
 );
 
 CREATE UNIQUE INDEX index_title_on_categories ON categories(title);

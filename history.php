@@ -22,4 +22,3 @@
   );
 
   print($full_page);
-?>

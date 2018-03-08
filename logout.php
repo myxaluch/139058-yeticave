@@ -3,4 +3,3 @@
 
   $_SESSION = [];
   header('Location: index.php');
-?>

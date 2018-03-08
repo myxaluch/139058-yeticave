@@ -1,5 +1,6 @@
 <section class="lot-item container">
   <?php if (isset($lot)): ?>
+    <?php $minimal_rate = isset($minimal_rate) ? $minimal_rate : $lot['cost-step'] ?>
     <h2><?= htmlspecialchars($lot['title']); ?></h2>
     <div class="lot-item__content">
       <div class="lot-item__left">
@@ -21,19 +22,19 @@
                 <span class="lot-item__cost"><?= htmlspecialchars(format_cost($lot['cost'])); ?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?= htmlspecialchars(format_cost($lot['cost-step'])); ?></span>
+                Мин. ставка <span><?= htmlspecialchars(format_cost($minimal_rate)); ?></span>
               </div>
             </div>
-            <?php if($current_user['id'] != $lot['author_id']): ?>
+            <?php if($current_user['id'] !== $lot['author_id']): ?>
               <?php $form_error_class = isset($errors) ? "form--invalid" : ""; ?>
               <form class="lot-item__form <=? $form_error_class; ?>" action="add_rate.php" method="post">
                 <?php $error_class = isset($errors['rate']) ? "form__item--invalid" : ""; ?>
                 <p class="lot-item__form-item <?= $error_class; ?>">
                   <label for="rate">Ваша ставка</label>
-                  <input id="rate" type="number" name="rate" placeholder="<?= htmlspecialchars(format_cost($lot['cost-step'])); ?>">
+                  <input id="rate" type="number" name="rate" placeholder="<?= htmlspecialchars(format_cost($minimal_rate)); ?>">
                   <input class="visually-hidden" type="number" id="lot_id" name="lot_id" value="<?= $lot['id']; ?>">
+                  <span class="form__error"><?= isset($errors['rate']) ? $errors['rate'] : ""; ?></span>
                 </p>
-                <span class="form__error"><?= isset($errors['rate']) ? $errors['rate'] : ""; ?></span>
                 <button type="submit" class="button">Сделать ставку</button>
               </form>
             <?php endif; ?>
@@ -45,7 +46,7 @@
               <tr class="history__item">
                 <td class="history__name"><?= $rate['author']; ?></td>
                 <td class="history__price"><?= htmlspecialchars($rate['amount']); ?></td>
-                <td class="history__time"><?= $rate['created_at']; ?></td>
+                <td class="history__time"><?= human_date_format($rate['created_at']); ?></td>
               </tr>
             <?php endforeach; ?>
             </table>

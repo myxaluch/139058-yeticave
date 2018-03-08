@@ -7,4 +7,3 @@
   }
   header('Location: history.php');
   return true;
-?>
