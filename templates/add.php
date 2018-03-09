@@ -21,7 +21,7 @@
       <select id="category" name="category">
         <option>Выберите категорию</option>
         <?php foreach ($lots_categories as $category): ?>
-          <?php if($category['id'] === $category_id): ?>
+          <?php if($category['id'] === intval($category_id)): ?>
             <option value="<?= $category['id']; ?>" selected><?= htmlspecialchars($category['title']); ?></option>
           <?php else: ?>
             <option value="<?= $category['id']; ?>" ><?= htmlspecialchars($category['title']); ?></option>

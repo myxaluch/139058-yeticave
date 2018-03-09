@@ -16,4 +16,3 @@
   );
 
   print($full_page);
-?>

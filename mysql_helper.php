@@ -242,7 +242,13 @@
   return $result;
 }
 
-  function add_new_rate(&$data, $current_user, $db_link) {
+/**
+ * @param $data - array of data of new rate
+ * @param $current_user - current logged user
+ * @param $db_link - current link to DB
+ * @return bool - return true, if insert was successful
+ */
+function add_new_rate(&$data, $current_user, $db_link) {
     $result = null;
 
     $insert_sql = 'INSERT INTO rates(`author_id`, `lot_id`, `amount`, `created_at`)

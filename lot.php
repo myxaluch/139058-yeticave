@@ -8,6 +8,7 @@
     if ($lot) {
       $rates = [];
       $rates = search_rates_by_lot($lot_id, $db_link);
+      $minimal_rate = $lot['cost'] + $lot['cost-step'];
 
       add_value_to_cookie_array($viewed_lots_cookie_name, $lot_id, strtotime('+ 30 days'));
 
@@ -16,6 +17,7 @@
         [
           'lot' => $lot,
           'rates' => $rates,
+          'minimal_rate' => $minimal_rate,
           'current_user' => $current_user
         ]
       );
@@ -35,4 +37,3 @@
   );
 
   print($full_page);
-?>

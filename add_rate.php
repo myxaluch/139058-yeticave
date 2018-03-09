@@ -10,7 +10,7 @@
 
       $validated_fields = [
         'rate' => [
-          'error_text' => 'Ставка должна быть выше или равна минимальной для данного лота',
+          'error_text' => 'Ставка должна быть выше или равна минимальной ставки (цена лота + шаг ставки) для данного лота.',
           'validate_function' => function($user_data) use($minimal_rate) { return intval($user_data) >= $minimal_rate; }
         ]
       ];
@@ -24,6 +24,7 @@
           [
             'lot' => $lot,
             'rates' => $rates,
+            'minimal_rate' => $minimal_rate,
             'current_user' => $current_user,
             'errors' => $errors
           ]

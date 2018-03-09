@@ -120,3 +120,37 @@
 
     return $sub_array;
   }
+
+/**
+ * @param $datetime - date
+ * @return string - return date in 'столько-то времени назад' format
+ */
+function human_date_format($datetime) {
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+
+  $string = array(
+    'y' => 'лет',
+    'm' => 'месяцев',
+    'w' => 'недель',
+    'd' => 'дней',
+    'h' => 'часов',
+    'i' => 'минут',
+    's' => 'секунд',
+  );
+
+  foreach ($string as $k => &$v) {
+    if ($diff->$k) {
+      $v = $diff->$k . ' ' . $v .  '';
+    } else {
+      unset($string[$k]);
+    }
+  }
+
+  $string = array_slice($string, 0, 1);
+  return $string ? implode(', ', $string) . ' назад' : 'только что';
+}
